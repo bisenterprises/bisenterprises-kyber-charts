@@ -1,0 +1,63 @@
+{
+	"name": "@bisenterprises/kyber-charts",
+	"version": "10.0.5",
+	"main": "dist/js/kyber-charts.js",
+	"files": [
+		"dist/"
+	],
+	"browserslist": [
+		"last 2 versions",
+		"ie 11"
+	],
+	"scripts": {
+		"precommit": "lint-staged",
+		"prebuild": "yarn clean && yarn build:componentsIndex",
+		"build": "yarn clean && run-p build:rollup build:copy:less",
+		"postbuild": "mkdirp ../../deploy && cp -r ./dist/* ../../deploy && cp testbed-kyber-charts.html ../../deploy",
+		"prebuild:dev": "yarn clean && yarn build:componentsIndex",
+		"build:dev": "cross-env NODE_ENV=development rollup -c",
+		"build:dev:rollup": "cross-env NODE_ENV=development rollup -c",
+		"build:rollup": "cross-env NODE_ENV=production rollup -c",
+		"build:copy:less": "cpy --cwd=src --parents \"**/*.less\" ../dist/less/charts",
+		"build:componentsIndex": "cross-env node ./build/generateComponentsIndex.js",
+		"watch": "yarn build:dev --watch",
+		"lint": "eslint ./src/ --color",
+		"test": "yarn test:unit --projects jest.config.js jest.integration.config.js",
+		"test:watch": "yarn test --watch",
+		"test:unit": "cross-env NODE_ENV=test jest --color",
+		"test:unit:watch": "yarn test:unit --watch",
+		"test:integration": "yarn test:unit --config=jest.integration.config.js",
+		"test:integration:watch": "yarn test:integration --watch",
+		"test:coverage": "cross-env NODE_ENV=test yarn test --coverage",
+		"clean": "rimraf dist",
+		"clear-cache": "rimraf node_modules/.cache"
+	},
+	"lint-staged": {
+		"**/*.{js,jsx}": [
+			"prettier --write",
+			"git add",
+			"jest --bail --projects jest.config.js jest.integration.config.js --findRelatedTests"
+		],
+		"**/*.{css,less}": [
+			"prettier --write",
+			"git add"
+		]
+	},
+	"dependencies": {
+		"@bisenterprises/bis-utils": "^0.6.8",
+		"@bisenterprises/kyber-components": "^10.0.5",
+		"highcharts": "8.0.4",
+		"highcharts-react-official": "3.0.0",
+		"lodash": "^4.17.10",
+		"prop-types": "^15.5.8",
+		"react": "16.8.6"
+	},
+	"peerDependencies": {
+		"highcharts": "8.0.4",
+		"prop-types": "^15.5.8",
+		"react": "^15.5.4 || ^16.8.6"
+	},
+	"publishConfig": {
+  		"access": "public"
+	}
+}
