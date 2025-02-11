@@ -10,7 +10,8 @@
       "build": "lerna run build",
       "lint": "lerna run lint",
       "test": "lerna run test",
-      "release": "lerna publish"
+      "release": "lerna publish",
+      "prepare": "lerna bootstrap"
   },
   "repository": {
       "type": "git",
@@ -21,6 +22,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-      "lerna": "^7.0.0"
+      "lerna": "^7.0.0",
+      "@lerna/cli": "^7.0.0"
   }
 }
